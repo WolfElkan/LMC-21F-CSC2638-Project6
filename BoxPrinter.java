@@ -19,6 +19,13 @@ class BoxChar {
 	public char c(int up, int right, int down, int left) {
 		return c(up,right,down,left,1);
 	}
+	public String c3(int up, int right, int down, int left) {
+		String result = "";
+		result += c(up,right,down,left);
+		result += c(up,right,down,left);
+		result += c(up,right,down,left);
+		return result;
+	}
 	public char dot() {
 		return '·';
 	}

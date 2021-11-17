@@ -35,10 +35,10 @@ class Node {
 		}
 		return result;
 	}
-	// public char left() {
-	// 	int h = N(3);
-	// 	return b.c(0,h,0,h);
-	// }
+	public char left() {
+		int h = N(3);
+		return b.c(0,h,0,h);
+	}
 	public char right() {
 		int h = N(1);
 		return b.c(0,h,0,h);

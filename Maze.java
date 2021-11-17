@@ -46,34 +46,64 @@ class Maze {
 			System.out.println("");
 		}		
 	}
+	int horz (int r, int c) {
+		if (r < 0 || c < 0) {
+			return 0;
+		} else if (r >= nRows) {
+			return nodes[nRows-1][c].n(2) ? 0 : 2;
+		} else {
+			return nodes[r][c].n(0) ? 0 : 2;
+		}
+	}
+	int vert (int r, int c) {
+		if (r < 0 || c < 0) {
+			return 0;
+		} else if (c >= nCols) {
+			return nodes[r][nCols-1].n(1) ? 0 : 2;
+		} else {
+			return nodes[r][c].n(3) ? 0 : 2;
+		}
+	}
 	String pnWall(int r, int c) {
 		String result = "";
 		// int A = (r == 0 || c == 0) ? 0 : nodes[r-1][c].n(3) ? 0 : 2;
 		// int A;
-		System.out.print(nodes[r][c].wall());
+		// System.out.print(nodes[r][c].wall());
 		// if (r == 0 || c == 0) {
 		// 	A = 0;
 		// } else {
 			// A = nodes[r][c].N2(3);
 		// }
-		// result += b.c(0,0,0,0);
-		// result += b.c(0,0,0,0);
-		// result += b.c(0,0,0,0);
-		// result += b.c(0,0,0,0);
+		result += b.c(vert(r-1,c),horz(r,c),vert(r,c),horz(r,c-1));
+		result += b.c3(0,horz(r,c),0,horz(r,c));
+		if (c >= nCols-1) {
+			// result += String.valueOf(c);
+			result += b.c(vert(r,nCols),0,vert(r,nCols),horz(r,c));
+		}
 		return result;
 	}
 	String pnHall(int r, int c) {
 		String result = "";
-		System.out.print(nodes[r][c].hall());
-		// result += b.c(0,0,0,0);
-		// result += b.c(0,0,0,0);
-		// result += b.c(0,0,0,0);
-		// result += b.c(0,0,0,0);
+		// System.out.print(nodes[r][c].hall());
+		result += b.c(vert(r,c),0,vert(r,c),0);
+		result += ' ';
+		result += ' ';
+		// System.out.print(nodes[r][c].left());
+		// result += nodes[r][c];
+		// System.out.print(nodes[r][c].right());
+		result += ' ';
+		if (c >= nCols-1) {
+			result += b.c(vert(r,nCols),0,vert(r,nCols),0);
+		}
 		return result;
 	}
 	String pnFloor(int r, int c) {
 		String result = "";
-		System.out.print(nodes[r][c].floor());
+		result += b.c(vert(r,c),horz(nRows,c),0,horz(nRows,c-1));
+		result += b.c3(0,horz(nRows,c),0,horz(nRows,c));
+		if (c >= nCols-1) {
+			result += b.c(vert(r,nCols),0,0,horz(r+1,c));
+		}
 		return result;
 	}
 	void printNeg() {
