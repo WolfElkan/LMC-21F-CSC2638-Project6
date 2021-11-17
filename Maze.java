@@ -66,19 +66,15 @@ class Maze {
 	}
 	String pnWall(int r, int c) {
 		String result = "";
-		// int A = (r == 0 || c == 0) ? 0 : nodes[r-1][c].n(3) ? 0 : 2;
-		// int A;
-		// System.out.print(nodes[r][c].wall());
-		// if (r == 0 || c == 0) {
-		// 	A = 0;
-		// } else {
-			// A = nodes[r][c].N2(3);
-		// }
 		result += b.c(vert(r-1,c),horz(r,c),vert(r,c),horz(r,c-1));
 		result += b.c3(0,horz(r,c),0,horz(r,c));
 		if (c >= nCols-1) {
-			// result += String.valueOf(c);
-			result += b.c(vert(r,nCols),0,vert(r,nCols),horz(r,c));
+			result += b.c(
+				r == 0 ? 0 : vert(r,nCols),
+				0,
+				vert(r,nCols),
+				horz(r,c)
+			);
 		}
 		return result;
 	}
@@ -93,7 +89,12 @@ class Maze {
 		// System.out.print(nodes[r][c].right());
 		result += ' ';
 		if (c >= nCols-1) {
-			result += b.c(vert(r,nCols),0,vert(r,nCols),0);
+			result += b.c(
+				vert(r,nCols),
+				0,
+				vert(r,nCols),
+				0
+			);
 		}
 		return result;
 	}
@@ -102,7 +103,12 @@ class Maze {
 		result += b.c(vert(r,c),horz(nRows,c),0,horz(nRows,c-1));
 		result += b.c3(0,horz(nRows,c),0,horz(nRows,c));
 		if (c >= nCols-1) {
-			result += b.c(vert(r,nCols),0,0,horz(r+1,c));
+			result += b.c(
+				vert(r,nCols),
+				0,
+				0,
+				horz(r+1,c)
+			);
 		}
 		return result;
 	}
@@ -127,7 +133,6 @@ class Maze {
 	public static void main(String[] args) {
 		Maze maze = new Maze(8,8,0.5);
 		maze.connect(4,5,2);
-		// maze.printMap();
 		maze.printNeg();
 	}
 }
