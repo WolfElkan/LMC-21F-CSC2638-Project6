@@ -198,12 +198,22 @@ class Maze {
 		}
 		return result;
 	}
-	String pnHall(int r, int c) {
+	String pnHall(int r, int c, boolean coords) {
 		String result = "";
 		// System.out.print(nodes[r][c].hall());
 		result += b.c(vert(r,c),0,vert(r,c),0);
 		result += ' ';
-		result += ' ';
+		if (coords) {
+			if (r==0) {
+				result += Node.coordinates.charAt(c);
+			} else if (c==0) {
+				result += Node.coordinates.charAt(r);
+			} else {
+				result += ' ';
+			}
+		} else {
+			result += ' ';
+		}
 		// result += (r==4 && c==4) ? 'O' : ' ';
 		// System.out.print(nodes[r][c].left());
 		// result += nodes[r][c];
@@ -233,7 +243,7 @@ class Maze {
 		}
 		return result;
 	}
-	void printNeg() {
+	void printNeg(boolean coords) {
 		for (int r=0; r<nRows; r++) {
 			for (int c=0; c<nCols; c++) {
 				System.out.print(pnWall(r, c));
@@ -241,7 +251,7 @@ class Maze {
 			System.out.println("");
 			if (r < nRows) {
 				for (int c=0; c<nCols; c++) {
-					System.out.print(pnHall(r, c));
+					System.out.print(pnHall(r, c, coords));
 				}
 				System.out.println("");
 			}
@@ -250,6 +260,9 @@ class Maze {
 			System.out.print(pnFloor(nRows-1, c));
 		}
 		System.out.println("");
+	}
+	void printNeg() {
+		printNeg(true);
 	}
 	public static void main(String[] args) {
 		Maze maze;
@@ -273,6 +286,7 @@ class Maze {
 				Thread.sleep(1000);
 			} catch (Exception e) {}
 		} while (!proven);
+		maze.printNeg(false);
 		// System.out.println(tries);
 		// System.out.println(maze.isSolvable());
 		// Node[] already = {maze.nodes[3][4]};

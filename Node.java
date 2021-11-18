@@ -2,6 +2,7 @@ class Node {
 	BoxChar b = new BoxChar();
 	int r;
 	int c;
+	public static String coordinates = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	private Node[] neighbors = new Node[4];
 	private boolean[] edgecases = new boolean[4];
 	Node(int row, int col) {}
@@ -112,8 +113,8 @@ class Node {
 	}
 	public String toString() {
 		String result = "";
-		result += "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(r);
-		result += "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(c);
+		result += coordinates.charAt(r);
+		result += coordinates.charAt(c);
 		// if (neighbors[0] == null &&
 		// 	neighbors[1] == null &&
 		// 	neighbors[2] == null &&
