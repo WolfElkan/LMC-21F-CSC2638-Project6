@@ -56,7 +56,7 @@ class Maze {
 						Thread.sleep(50);
 						connect(r,c,d);
 						printNeg();
-						// System.out.println("");
+						System.out.println("");
 					}
 				}
 			} catch (Exception e) {
@@ -125,6 +125,24 @@ class Maze {
 			}
 		}
 	}
+	boolean proof() {
+		boolean result = true;
+		for (int r=0; r<nRows; r++) {
+			for (int c=0; c<nCols; c++) {
+				Node node = nodes[r][c];
+				if (!node.canAccess(start) && !node.canAccess(end)) {
+					System.out.print(node);
+					System.out.print(' ');
+					result = false;
+					double dir = Math.random() * 4;
+					int d = (int) dir;
+					connect(r,c,d);
+				}
+			}
+		}
+		System.out.println("");
+		return result;
+	}
 	boolean isSolvable() {
 		return start.canAccess(end);
 	}
@@ -132,8 +150,12 @@ class Maze {
 		Node nodeA = nodes[row][col];
 		row += dirR[dir];
 		col += dirC[dir];
-		Node nodeB = nodes[row][col];
-		return nodeA.connect(nodeB, dir);
+		if (row >= 0 && col >= 0 && row < nRows && col < nCols) {
+			Node nodeB = nodes[row][col];
+			return nodeA.connect(nodeB, dir);
+		} else {
+			return false;
+		}
 	}
 	void printMap() {
 		for (int r=0; r<nRows; r++) {
@@ -232,13 +254,25 @@ class Maze {
 	public static void main(String[] args) {
 		Maze maze;
 		int tries = 0;
-		maze = new Maze(24,24,1.0,1.0);
+		maze = new Maze(Integer.parseInt(args[0]),Integer.parseInt(args[1]),1.0,1.0);
 		// while (!maze.isSolvable()) {
 		// 	maze = new Maze(8,8,3);
 		// 	tries++;
 		// }
 		// maze.connect(4,5,2);
 		maze.printNeg();
+		System.out.println("Solvable");
+		try {
+			Thread.sleep(2000);
+		} catch (Exception e) {}
+		boolean proven;
+		do {
+			maze.printNeg();
+			proven = maze.proof();
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {}
+		} while (!proven);
 		// System.out.println(tries);
 		// System.out.println(maze.isSolvable());
 		// Node[] already = {maze.nodes[3][4]};

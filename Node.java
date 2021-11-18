@@ -112,8 +112,8 @@ class Node {
 	}
 	public String toString() {
 		String result = "";
-		result += "0123456789".charAt(r);
-		result += "0123456789".charAt(c);
+		result += "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(r);
+		result += "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".charAt(c);
 		// if (neighbors[0] == null &&
 		// 	neighbors[1] == null &&
 		// 	neighbors[2] == null &&
