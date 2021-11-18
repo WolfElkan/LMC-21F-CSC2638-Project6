@@ -1,3 +1,5 @@
+import java.util.concurrent.TimeUnit;
+
 class Maze {
 	BoxChar b = new BoxChar();
 	private Node[][] nodes;
@@ -7,13 +9,68 @@ class Maze {
 	private int[] dirC = { 0, 1, 0,-1};
 	int nRows;
 	int nCols;
+	Maze(int nRows, int nCols, double con3, double con4) {
+		this.nRows = nRows;
+		this.nCols = nCols;
+		nodes = new Node[nRows][nCols];
+		for (int r=0; r<nRows; r++) {
+			for (int c=0; c<nCols; c++) {
+				nodes[r][c] = new Node(r,c,
+					r == 0,
+					c == nCols-1,
+					r == nRows-1,
+					c == 0
+				);
+			}
+		}
+		nodes[0][0].connect(start,0);
+		nodes[nRows-1][nCols-1].connect(end,2);
+		while (!isSolvable()) {
+			try {
+				double row = Math.random() * nRows;
+				int r = (int) row;
+				double col = Math.random() * nCols;
+				int c = (int) col;
+				Node node = nodes[r][c];
+				double con;
+				switch (node.nConnections()) {
+					case 0:
+					case 1:
+						con = 1.0;
+						break;
+					case 2:
+						con = con3;
+						break;
+					case 3:
+						con = con4;
+						break;
+					default:
+						con = 0.0;
+				}
+				if (con > Math.random()) {
+					double dir = Math.random() * 2;
+					int d = (int) dir;
+					d += 1;
+					if (!node.n(d)) {
+						// System.out.println(node);
+						// Thread.sleep(50);
+						connect(r,c,d);
+						// printNeg();
+						// System.out.println("");
+					}
+				}
+			} catch (Exception e) {
+				// System.out.println(e);
+			}
+		}
+	}
 	Maze(int nRows, int nCols, double connectionProbability) {
 		this.nRows = nRows;
 		this.nCols = nCols;
 		nodes = new Node[nRows][nCols];
 		for (int r=0; r<nRows; r++) {
 			for (int c=0; c<nCols; c++) {
-				nodes[r][c] = new Node(
+				nodes[r][c] = new Node(r,c,
 					r == 0,
 					c == nCols-1,
 					r == nRows-1,
@@ -29,6 +86,48 @@ class Maze {
 		}
 		nodes[0][0].connect(start,0);
 		nodes[nRows-1][nCols-1].connect(end,2);
+	}
+	Maze(int nRows, int nCols) {
+		this.nRows = nRows;
+		this.nCols = nCols;
+		nodes = new Node[nRows][nCols];
+		for (int r=0; r<nRows; r++) {
+			for (int c=0; c<nCols; c++) {
+				nodes[r][c] = new Node(r,c,
+					r == 0,
+					c == nCols-1,
+					r == nRows-1,
+					c == 0
+				);
+			}
+		}
+		nodes[0][0].connect(start,0);
+		nodes[nRows-1][nCols-1].connect(end,2);
+		while (!isSolvable()) {
+			try {
+				double row = Math.random() * nRows;
+				int r = (int) row;
+				double col = Math.random() * nCols;
+				int c = (int) col;
+				Node node = nodes[r][c];
+				if (node.nConnections() < Math.pow(Math.random(),2) * 4) {
+					double dir = Math.random() * 2;
+					int d = (int) dir;
+					d += 1;
+					if (!node.n(d)) {
+						// System.out.println(node);
+						Thread.sleep(50);
+						connect(r,c,d);
+						printNeg();
+					}
+				}
+			} catch (Exception e) {
+				// System.out.println(e);
+			}
+		}
+	}
+	boolean isSolvable() {
+		return start.canAccess(end);
 	}
 	void connect(int row, int col, int dir) {
 		Node nodeA = nodes[row][col];
@@ -84,6 +183,7 @@ class Maze {
 		result += b.c(vert(r,c),0,vert(r,c),0);
 		result += ' ';
 		result += ' ';
+		// result += (r==4 && c==4) ? 'O' : ' ';
 		// System.out.print(nodes[r][c].left());
 		// result += nodes[r][c];
 		// System.out.print(nodes[r][c].right());
@@ -131,8 +231,18 @@ class Maze {
 		System.out.println("");
 	}
 	public static void main(String[] args) {
-		Maze maze = new Maze(8,8,0.5);
-		maze.connect(4,5,2);
+		Maze maze;
+		int tries = 0;
+		maze = new Maze(8,8,1.0,1.0);
+		// while (!maze.isSolvable()) {
+		// 	maze = new Maze(8,8,3);
+		// 	tries++;
+		// }
+		// maze.connect(4,5,2);
 		maze.printNeg();
+		// System.out.println(tries);
+		// System.out.println(maze.isSolvable());
+		// Node[] already = {maze.nodes[3][4]};
+		// System.out.println(maze.nodes[4][4].canAccess(maze.nodes[4][5]));
 	}
 }
