@@ -53,9 +53,9 @@ class Maze {
 					d += 1;
 					if (!node.n(d)) {
 						// System.out.println(node);
-						// Thread.sleep(50);
+						Thread.sleep(50);
 						connect(r,c,d);
-						// printNeg();
+						printNeg();
 						// System.out.println("");
 					}
 				}
@@ -233,7 +233,7 @@ class Maze {
 	public static void main(String[] args) {
 		Maze maze;
 		int tries = 0;
-		maze = new Maze(8,8,1.0,1.0);
+		maze = new Maze(24,24,1.0,1.0);
 		// while (!maze.isSolvable()) {
 		// 	maze = new Maze(8,8,3);
 		// 	tries++;
