@@ -93,11 +93,13 @@ class Node {
 	int nConnections() {
 		return N(0) + N(1) + N(2) + N(3);
 	}
-	void connect(Node target, int direction) {
-		if (nConnections() < 2) {
+	boolean connect(Node target, int direction) {
+		if (!canAccess(target)) {
 			neighbors[direction] = target;
 			target.neighbors[direction^2] = this;
+			return true;
 		}
+		return false;
 	}
 	boolean n(int dir) {
 		return neighbors[dir] != null;

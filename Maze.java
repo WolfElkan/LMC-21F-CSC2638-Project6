@@ -114,10 +114,9 @@ class Maze {
 					double dir = Math.random() * 2;
 					int d = (int) dir;
 					d += 1;
-					if (!node.n(d)) {
+					if (connect(r,c,d)) {
 						// System.out.println(node);
 						Thread.sleep(50);
-						connect(r,c,d);
 						printNeg();
 					}
 				}
@@ -129,12 +128,12 @@ class Maze {
 	boolean isSolvable() {
 		return start.canAccess(end);
 	}
-	void connect(int row, int col, int dir) {
+	boolean connect(int row, int col, int dir) {
 		Node nodeA = nodes[row][col];
 		row += dirR[dir];
 		col += dirC[dir];
 		Node nodeB = nodes[row][col];
-		nodeA.connect(nodeB, dir);
+		return nodeA.connect(nodeB, dir);
 	}
 	void printMap() {
 		for (int r=0; r<nRows; r++) {
